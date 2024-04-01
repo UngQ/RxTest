@@ -29,6 +29,8 @@
 		041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280722AEFAD4B00972552 /* NicknameViewController.swift */; };
 		041280782AF1D14000972552 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280772AF1D14000972552 /* Resource.swift */; };
 		A55E8BB72BB9BFEE001EF828 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E8BB62BB9BFEE001EF828 /* SampleViewController.swift */; };
+		A5A27CA12BBB028D00C9D88D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A27C9F2BBB028D00C9D88D /* SearchViewController.swift */; };
+		A5A27CA22BBB028D00C9D88D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A27CA02BBB028D00C9D88D /* SearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		041280722AEFAD4B00972552 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		041280772AF1D14000972552 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		A55E8BB62BB9BFEE001EF828 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
+		A5A27C9F2BBB028D00C9D88D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		A5A27CA02BBB028D00C9D88D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,7 @@
 				041280532AEF9C1F00972552 /* SignUp */,
 				041280542AEF9C2600972552 /* SignIn */,
 				0412806D2AEFAD0F00972552 /* SignUpOptional */,
+				A5A27C9E2BBB026400C9D88D /* Search */,
 				041280612AEFA0BE00972552 /* CustomView */,
 				A55E8BB62BB9BFEE001EF828 /* SampleViewController.swift */,
 				041280232AEF9BAB00972552 /* AppDelegate.swift */,
@@ -193,6 +198,15 @@
 				041280722AEFAD4B00972552 /* NicknameViewController.swift */,
 			);
 			path = SignUpOptional;
+			sourceTree = "<group>";
+		};
+		A5A27C9E2BBB026400C9D88D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				A5A27C9F2BBB028D00C9D88D /* SearchViewController.swift */,
+				A5A27CA02BBB028D00C9D88D /* SearchTableViewCell.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5A27CA12BBB028D00C9D88D /* SearchViewController.swift in Sources */,
 				041280782AF1D14000972552 /* Resource.swift in Sources */,
 				0412806F2AEFAD2D00972552 /* BirthdayViewController.swift in Sources */,
 				041280652AEFA2F000972552 /* SignTextField.swift in Sources */,
@@ -346,6 +361,7 @@
 				041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */,
 				0412806A2AEFA91E00972552 /* SignUpViewController.swift in Sources */,
 				041280712AEFAD3D00972552 /* PhoneViewController.swift in Sources */,
+				A5A27CA22BBB028D00C9D88D /* SearchTableViewCell.swift in Sources */,
 				041280262AEF9BAB00972552 /* SceneDelegate.swift in Sources */,
 				041280582AEFA05300972552 /* SignInViewModel.swift in Sources */,
 			);
