@@ -27,14 +27,35 @@ class ShoppingListViewModel {
 			}
 	}
 
+	//
+
+	lazy var currentList = repository.fetchList()
+	var observationToken = NotificationToken()
+
 	let disposeBag = DisposeBag()
 
 	init() {
 		loadRealmData()
 
+		makeRealmObserve()
 
 
 
+
+	}
+
+	func makeRealmObserve() {
+		guard let list = currentList else { return }
+		observationToken = list.observe { changes in
+			switch changes {
+			case .initial(let collectionType):
+				print("initial")
+			case .update(let collectionType, let deletions, let insertions, let modifications):
+				print("update")
+			case .error(let error):
+				print("error")
+			}
+		}
 	}
 
 	func loadRealmData() {

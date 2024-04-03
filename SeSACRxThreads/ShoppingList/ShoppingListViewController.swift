@@ -89,14 +89,16 @@ class ShoppingListViewController: UIViewController {
 			.distinctUntilChanged()
 			.subscribe(with: self) { owner, value in
 				owner.viewModel.addShoppingItem(title: value)
+
 			}
 			.disposed(by: disposeBag)
 
 		var curretnFilteredData: [ShoppingList] = []
 
 		viewModel.filteredData
-			.do(onNext: { data in curretnFilteredData = data
-			print(data)})
+			.do(onNext: { data in
+				curretnFilteredData = data
+			})
 			.bind(to: shoppingListTableView.rx.items(cellIdentifier: ShoppingListTableViewCell.identifier, cellType: ShoppingListTableViewCell.self)) {
 				row, element, cell in
 				
