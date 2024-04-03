@@ -7,14 +7,20 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class SignInViewController: UIViewController {
+
+	let viewModel = SignInViewModel()
 
     let emailTextField = SignTextField(placeholderText: "이메일을 입력해주세요")
     let passwordTextField = SignTextField(placeholderText: "비밀번호를 입력해주세요")
     let signInButton = PointButton(title: "로그인")
     let signUpButton = UIButton()
     
+	let bag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,12 +28,31 @@ class SignInViewController: UIViewController {
         
         configureLayout()
         configure()
-        
-        signUpButton.addTarget(self, action: #selector(signUpButtonClicked), for: .touchUpInside)
+		bind()
     }
     
-    @objc func signUpButtonClicked() {
-        navigationController?.pushViewController(SignUpViewController(), animated: true)
+	func bind() {
+		emailTextField.rx.text.orEmpty
+			.asDriver()
+			.drive(with: self) { owner, value in
+				owner.viewModel.inputEmail.accept(value)
+			}
+			.disposed(by: bag)
+
+		passwordTextField.rx.text.orEmpty
+			.asDriver()
+			.drive(with: self) { owner, value in
+				owner.viewModel.inputPassword.accept(value)
+			}
+			.disposed(by: bag)
+
+		signUpButton
+			.rx
+			.tap
+			.bind(with: self) { owner, _ in
+			owner.navigationController?.pushViewController(SignUpViewController(), animated: true)
+		}
+		.disposed(by: bag)
     }
     
     

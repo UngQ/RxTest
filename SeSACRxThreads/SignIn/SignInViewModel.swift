@@ -6,9 +6,17 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 class SignInViewModel {
     
+	let inputEmail = PublishRelay<String>()
+	let inputPassword = PublishRelay<String>()
+
     
-    
+	init() {
+
+
+	}
 }

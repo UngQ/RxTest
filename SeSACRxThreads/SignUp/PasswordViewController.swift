@@ -13,11 +13,12 @@ import RxCocoa
 
 class PasswordViewController: UIViewController {
    
+	let viewModel = PasswordViewModel()
+
     let passwordTextField = SignTextField(placeholderText: "비밀번호를 입력해주세요")
     let nextButton = PointButton(title: "다음")
 	let descriptionLabel = UILabel()
 
-	let validText = Observable.just("8자 이상 입력해주세요.")
 
 	let bag = DisposeBag()
 
@@ -58,7 +59,7 @@ class PasswordViewController: UIViewController {
     }
 
 	func bind() {
-		validText
+		viewModel.validText
 			.bind(to: descriptionLabel.rx.text)
 			.disposed(by: bag)
 

@@ -10,7 +10,7 @@ import RealmSwift
 
 final class ShoppingListRepository {
 
-	private var realm: Realm?
+	var realm: Realm?
 
 	init() {
 		do {
@@ -29,6 +29,15 @@ final class ShoppingListRepository {
 
 		let result = realm.objects(ShoppingListRealmModel.self)
 		return result
+	}
+
+	func fetchList2() -> [ShoppingListRealmModel] {
+		guard let realm = realm else { return [] }
+
+		print(realm.configuration.fileURL)
+
+		let result = realm.objects(ShoppingListRealmModel.self)
+		return Array(result)
 	}
 
 	func createShoppingItem(_ title: String) {

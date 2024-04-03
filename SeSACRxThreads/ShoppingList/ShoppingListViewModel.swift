@@ -13,19 +13,13 @@ import RxCocoa
 class ShoppingListViewModel {
 
 	let repository = ShoppingListRepository()
-//	var shoppingList: [ShoppingList] = []
 
-	let data = BehaviorSubject<[ShoppingList]>(value: [])
+	var shoppingList: [ShoppingList] = []
+	lazy var data = BehaviorSubject(value: shoppingList)
 
-	var searchText = BehaviorSubject<String>(value: "")
-
-	var filteredData: Observable<[ShoppingList]> {
-		return Observable.combineLatest(data, searchText)
-			.map { shoppingList, searchText in
-				guard !searchText.isEmpty else { return shoppingList }
-				return shoppingList.filter { $0.title.contains(searchText) }
-			}
-	}
+	var inputTextFieldString = BehaviorSubject<String>(value: "")
+	let inputAddButtonTap = PublishRelay<Void>()
+	let inputDeleteButtonTap = PublishRelay<Int>()
 
 	//
 
@@ -35,47 +29,62 @@ class ShoppingListViewModel {
 	let disposeBag = DisposeBag()
 
 	init() {
-		loadRealmData()
-
 		makeRealmObserve()
 
+		bindInputTextFieldString()
 
+		inputAddButtonTap
+			.withLatestFrom(inputTextFieldString)
+			.distinctUntilChanged()
+			.bind(with: self, onNext: { owner, value in
+				owner.repository.createShoppingItem(value)
+			})
+			.disposed(by: disposeBag)
 
+		inputDeleteButtonTap
 
+			.bind(with: self) { owner, value in
+				print(value)
+				var result: [ShoppingList] = []
+				do {
+					try result = owner.data.value()
+					owner.repository.deleteShoppingItem(result[value].id)
+				} catch {
+					print("error")
+				}
+			}
+			.disposed(by: disposeBag)
+
+	}
+
+	func bindInputTextFieldString() {
+		inputTextFieldString
+			.subscribe(with: self) { owner, value in
+				let result = value.isEmpty ? owner.shoppingList : owner.shoppingList.filter { $0.title.contains(value) }
+				owner.data.onNext(result)
+				print(value)
+			}
+			.disposed(by: disposeBag)
 	}
 
 	func makeRealmObserve() {
 		guard let list = currentList else { return }
+
+
 		observationToken = list.observe { changes in
 			switch changes {
-			case .initial(let collectionType):
+			case .initial:
 				print("initial")
-			case .update(let collectionType, let deletions, let insertions, let modifications):
+				self.shoppingList = Array(list).map { $0.toStruct() }
+				self.data.onNext(self.shoppingList)
+			case .update:
 				print("update")
-			case .error(let error):
+				self.shoppingList = Array(list).map { $0.toStruct() }
+				self.data.onNext(self.shoppingList)
+				self.bindInputTextFieldString()
+			case .error:
 				print("error")
 			}
 		}
 	}
-
-	func loadRealmData() {
-		guard let realmData = repository.fetchList() else { return }
-		let shoppingList = Array(realmData).map{ $0.toStruct() }
-		data.onNext(shoppingList)
-
-	}
-
-
-	func addShoppingItem(title: String) {
-		repository.createShoppingItem(title)
-		loadRealmData()
-	}
-
-	func deleteShoppingItem(by id: ObjectId) {
-		repository.deleteShoppingItem(id)
-		loadRealmData()
-	}
-
-
-	
 }

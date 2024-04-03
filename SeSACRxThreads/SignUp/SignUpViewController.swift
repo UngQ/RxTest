@@ -12,11 +12,11 @@ import RxCocoa
 
 class SignUpViewController: UIViewController {
 
+	let viewModel = SingUpViewmodel()
+
     let emailTextField = SignTextField(placeholderText: "이메일을 입력해주세요")
     let validationButton = UIButton()
     let nextButton = PointButton(title: "다음")
-
-	var email = BehaviorSubject(value: "leevwe@naver.com")
 	let buttonColor = Observable.just(UIColor.systemGreen)
 
 	let bag = DisposeBag()
@@ -30,8 +30,6 @@ class SignUpViewController: UIViewController {
         configure()
 
 		bind()
-
-
 
     }
     
@@ -71,23 +69,25 @@ class SignUpViewController: UIViewController {
     }
 
 	func bind() {
-		email.bind(to: emailTextField.rx.text)
-			.disposed(by: bag)
-
-		buttonColor.bind(to: nextButton.rx.backgroundColor,
-						 emailTextField.rx.tintColor,
-						 emailTextField.rx.textColor)
-		.disposed(by: bag)
-
-		buttonColor.map { $0.cgColor }
-			.bind(to: emailTextField.layer.rx.borderColor)
+		viewModel.inputEmail
+			.bind(to: emailTextField.rx.text)
 			.disposed(by: bag)
 
 		validationButton.rx
-			.tap.bind(with: self) { owner, _ in
-				owner.email.onNext("whalsrud4607@naver.com")
-			}
+			.tap.bind(to: viewModel.inputValidationButtonTap)
 			.disposed(by: bag)
+
+		buttonColor
+			.bind(to: nextButton.rx.backgroundColor,
+				  emailTextField.rx.tintColor,
+				  emailTextField.rx.textColor)
+			.disposed(by: bag)
+
+		buttonColor
+			.map { $0.cgColor }
+			.bind(to: emailTextField.layer.rx.borderColor)
+			.disposed(by: bag)
+
 
 		nextButton.rx
 			.tap.bind(with: self) { owner, _ in

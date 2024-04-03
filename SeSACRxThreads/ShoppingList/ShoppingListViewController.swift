@@ -25,7 +25,7 @@ class ShoppingListViewController: UIViewController {
 	let shoppingListTableView = {
 		let tableView = UITableView()
 		tableView.register(ShoppingListTableViewCell.self, forCellReuseIdentifier: ShoppingListTableViewCell.identifier)
-		tableView.backgroundColor = .systemBlue
+		tableView.backgroundColor = .white
 		return tableView
 	}()
 
@@ -35,7 +35,7 @@ class ShoppingListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		view.backgroundColor = .white
 
 		configureLayout()
 		bind()
@@ -80,25 +80,20 @@ class ShoppingListViewController: UIViewController {
 	func bind() {
 
 		textField.rx.text.orEmpty
-			.bind(to: viewModel.searchText)
+			.bind(to: viewModel.inputTextFieldString)
+			.disposed(by: disposeBag)
+
+		viewModel.inputTextFieldString
+			.bind(to: textField.rx.text)
 			.disposed(by: disposeBag)
 
 		addButton.rx
 			.tap
-			.withLatestFrom(textField.rx.text.orEmpty)
-			.distinctUntilChanged()
-			.subscribe(with: self) { owner, value in
-				owner.viewModel.addShoppingItem(title: value)
-
-			}
+			.bind(to: viewModel.inputAddButtonTap)
 			.disposed(by: disposeBag)
 
-		var curretnFilteredData: [ShoppingList] = []
 
-		viewModel.filteredData
-			.do(onNext: { data in
-				curretnFilteredData = data
-			})
+		viewModel.data
 			.bind(to: shoppingListTableView.rx.items(cellIdentifier: ShoppingListTableViewCell.identifier, cellType: ShoppingListTableViewCell.self)) {
 				row, element, cell in
 				
@@ -110,7 +105,7 @@ class ShoppingListViewController: UIViewController {
 				cell.checkButton.rx.tap
 					.bind(with: self) { owner, _ in
 						owner.viewModel.repository.toggleCheck(element.id)
-						owner.viewModel.loadRealmData()
+
 					}
 					.disposed(by: cell.disposeBag)
 
@@ -119,23 +114,20 @@ class ShoppingListViewController: UIViewController {
 				cell.bookmarkButton.rx.tap
 					.bind(with: self) { owner, _ in
 						owner.viewModel.repository.toggleBookmark(element.id)
-						owner.viewModel.loadRealmData()
+
 					}
 					.disposed(by: cell.disposeBag)
-
-
-
 			}
 			.disposed(by: disposeBag)
 
-		shoppingListTableView.rx.itemDeleted.bind(with: self) { owner, indexPath in
-			let data = curretnFilteredData[indexPath.row].id
-			owner.viewModel.deleteShoppingItem(by: data)
-//			owner.viewModel.repository.deleteShoppingItem(owner.viewModel.data.value()[indexPath.row].id)
-//			owner.textField.rx.text.onNext(nil)
-//			owner.viewModel.loadRealmData()
-		}
-		.disposed(by: disposeBag)
+
+		shoppingListTableView
+			.rx
+			.itemDeleted
+			.bind(with: self, onNext: { owner, indexPath in
+				owner.viewModel.inputDeleteButtonTap.accept(indexPath.row)
+			})
+			.disposed(by: disposeBag)
 	}
 
 

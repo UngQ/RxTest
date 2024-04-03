@@ -11,7 +11,9 @@ import RxSwift
 import RxCocoa
 
 class BirthdayViewController: UIViewController {
-    
+
+	let viewModel = BirthdayViewModel()
+
     let birthDayPicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
@@ -68,9 +70,6 @@ class BirthdayViewController: UIViewController {
   
     let nextButton = PointButton(title: "가입하기")
 
-	let year = PublishSubject<Int>()
-	let month = PublishSubject<Int>()
-	let day = PublishSubject<Int>()
 
 	let bag = DisposeBag()
 
@@ -125,29 +124,23 @@ class BirthdayViewController: UIViewController {
 
 	func bind() {
 
-		year.map { "\($0)년" }
-			.bind(to: yearLabel.rx.text)
+		viewModel.year.map { "\($0)년" }
+			.asDriver(onErrorJustReturn: "")
+			.drive(yearLabel.rx.text)
 			.disposed(by: bag)
 
-		month.map { "\($0)월" }
-			.bind(to: monthLabel.rx.text)
+		viewModel.month.map { "\($0)월" }
+			.asDriver(onErrorJustReturn: "")
+			.drive(monthLabel.rx.text)
 			.disposed(by: bag)
 
-		day.map { "\($0)일" }
-			.bind(to: dayLabel.rx.text)
+		viewModel.day.map { "\($0)일" }
+			.asDriver(onErrorJustReturn: "")
+			.drive(dayLabel.rx.text)
 			.disposed(by: bag)
 
 		birthDayPicker.rx.date
-			.bind(with: self) { owner, date in
-				let component = Calendar.current.dateComponents([.year, .month, .day], from: date)
-
-				guard let year = component.year, let month = component.month, let day = component.day else { return }
-
-				owner.year.onNext(year)
-				owner.month.onNext(month)
-				owner.day.onNext(day)
-
-			}
+			.bind(to: viewModel.inputBirthday)
 			.disposed(by: bag)
 
 		let validation = birthDayPicker.rx.date.map { date in
