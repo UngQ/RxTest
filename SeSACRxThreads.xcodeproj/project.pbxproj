@@ -28,6 +28,12 @@
 		041280712AEFAD3D00972552 /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280702AEFAD3D00972552 /* PhoneViewController.swift */; };
 		041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280722AEFAD4B00972552 /* NicknameViewController.swift */; };
 		041280782AF1D14000972552 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280772AF1D14000972552 /* Resource.swift */; };
+		A54C0DFD2BC2268A007E8DA4 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C0DF72BC2268A007E8DA4 /* MovieCollectionViewCell.swift */; };
+		A54C0DFE2BC2268A007E8DA4 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C0DF82BC2268A007E8DA4 /* Network.swift */; };
+		A54C0DFF2BC2268A007E8DA4 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C0DF92BC2268A007E8DA4 /* ShareViewController.swift */; };
+		A54C0E002BC2268A007E8DA4 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C0DFA2BC2268A007E8DA4 /* Movie.swift */; };
+		A54C0E012BC2268A007E8DA4 /* BoxOfficeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C0DFB2BC2268A007E8DA4 /* BoxOfficeViewModel.swift */; };
+		A54C0E022BC2268A007E8DA4 /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C0DFC2BC2268A007E8DA4 /* BoxOfficeViewController.swift */; };
 		A55E8BB72BB9BFEE001EF828 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55E8BB62BB9BFEE001EF828 /* SampleViewController.swift */; };
 		A58541922BBC513B0011FB12 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A58541912BBC513B0011FB12 /* Realm */; };
 		A58541942BBC513B0011FB12 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A58541932BBC513B0011FB12 /* RealmSwift */; };
@@ -83,6 +89,12 @@
 		041280702AEFAD3D00972552 /* PhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		041280722AEFAD4B00972552 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		041280772AF1D14000972552 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		A54C0DF72BC2268A007E8DA4 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		A54C0DF82BC2268A007E8DA4 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		A54C0DF92BC2268A007E8DA4 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		A54C0DFA2BC2268A007E8DA4 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		A54C0DFB2BC2268A007E8DA4 /* BoxOfficeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewModel.swift; sourceTree = "<group>"; };
+		A54C0DFC2BC2268A007E8DA4 /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 		A55E8BB62BB9BFEE001EF828 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 		A58541952BBC52010011FB12 /* ShoppingListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListRepository.swift; sourceTree = "<group>"; };
 		A58541972BBC52150011FB12 /* ShoppingListRealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListRealmModel.swift; sourceTree = "<group>"; };
@@ -149,6 +161,7 @@
 		041280222AEF9BAB00972552 /* SeSACRxThreads */ = {
 			isa = PBXGroup;
 			children = (
+				A54C0DF62BC22666007E8DA4 /* BoxOffice */,
 				A5A27CAA2BBC498100C9D88D /* Realm */,
 				A5A27CA32BBC482800C9D88D /* ShoppingList */,
 				041280532AEF9C1F00972552 /* SignUp */,
@@ -223,6 +236,19 @@
 				041280722AEFAD4B00972552 /* NicknameViewController.swift */,
 			);
 			path = SignUpOptional;
+			sourceTree = "<group>";
+		};
+		A54C0DF62BC22666007E8DA4 /* BoxOffice */ = {
+			isa = PBXGroup;
+			children = (
+				A54C0DFC2BC2268A007E8DA4 /* BoxOfficeViewController.swift */,
+				A54C0DFB2BC2268A007E8DA4 /* BoxOfficeViewModel.swift */,
+				A54C0DFA2BC2268A007E8DA4 /* Movie.swift */,
+				A54C0DF72BC2268A007E8DA4 /* MovieCollectionViewCell.swift */,
+				A54C0DF82BC2268A007E8DA4 /* Network.swift */,
+				A54C0DF92BC2268A007E8DA4 /* ShareViewController.swift */,
+			);
+			path = BoxOffice;
 			sourceTree = "<group>";
 		};
 		A5A27C9E2BBB026400C9D88D /* Search */ = {
@@ -395,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54C0DFE2BC2268A007E8DA4 /* Network.swift in Sources */,
 				A5A27CA12BBB028D00C9D88D /* SearchViewController.swift in Sources */,
 				A5A27CA52BBC484900C9D88D /* ShoppingListViewController.swift in Sources */,
 				041280782AF1D14000972552 /* Resource.swift in Sources */,
@@ -402,21 +429,26 @@
 				A5A27CA72BBC485100C9D88D /* ShoppingListViewModel.swift in Sources */,
 				041280652AEFA2F000972552 /* SignTextField.swift in Sources */,
 				0412806C2AEFABFE00972552 /* PasswordViewController.swift in Sources */,
+				A54C0E022BC2268A007E8DA4 /* BoxOfficeViewController.swift in Sources */,
 				041280562AEFA04800972552 /* SignInViewController.swift in Sources */,
 				041280282AEF9BAB00972552 /* ViewController.swift in Sources */,
+				A54C0E012BC2268A007E8DA4 /* BoxOfficeViewModel.swift in Sources */,
 				A5A27CA92BBC488C00C9D88D /* ShoppingListTableViewCell.swift in Sources */,
 				A58541982BBC52150011FB12 /* ShoppingListRealmModel.swift in Sources */,
 				A55E8BB72BB9BFEE001EF828 /* SampleViewController.swift in Sources */,
 				A58541962BBC52010011FB12 /* ShoppingListRepository.swift in Sources */,
+				A54C0E002BC2268A007E8DA4 /* Movie.swift in Sources */,
 				041280632AEFA0CE00972552 /* PointButton.swift in Sources */,
 				041280242AEF9BAB00972552 /* AppDelegate.swift in Sources */,
 				041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */,
 				A58541A32BBDC2530011FB12 /* SingUpViewmodel.swift in Sources */,
+				A54C0DFD2BC2268A007E8DA4 /* MovieCollectionViewCell.swift in Sources */,
 				0412806A2AEFA91E00972552 /* SignUpViewController.swift in Sources */,
 				041280712AEFAD3D00972552 /* PhoneViewController.swift in Sources */,
 				A5A27CA22BBB028D00C9D88D /* SearchTableViewCell.swift in Sources */,
 				A58541A52BBDC64F0011FB12 /* PasswordViewModel.swift in Sources */,
 				A58541A72BBDCBEA0011FB12 /* BirthdayViewModel.swift in Sources */,
+				A54C0DFF2BC2268A007E8DA4 /* ShareViewController.swift in Sources */,
 				041280262AEF9BAB00972552 /* SceneDelegate.swift in Sources */,
 				041280582AEFA05300972552 /* SignInViewModel.swift in Sources */,
 			);

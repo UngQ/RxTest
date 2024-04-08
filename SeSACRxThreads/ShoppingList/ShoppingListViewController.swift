@@ -38,7 +38,7 @@ class ShoppingListViewController: UIViewController {
 		view.backgroundColor = .white
 
 		configureLayout()
-		bind()
+		newBind()
     }
 
 	func configureLayout() {
@@ -77,26 +77,17 @@ class ShoppingListViewController: UIViewController {
 
 	}
 
-	func bind() {
+	func newBind() {
+		let input = ShoppingListViewModel.Input(title: textField.rx.text,
+												addButtonTap: addButton.rx.tap,
+												deleteButtonTap: shoppingListTableView.rx.itemDeleted)
 
-		textField.rx.text.orEmpty
-			.bind(to: viewModel.inputTextFieldString)
-			.disposed(by: disposeBag)
-
-		viewModel.inputTextFieldString
-			.bind(to: textField.rx.text)
-			.disposed(by: disposeBag)
-
-		addButton.rx
-			.tap
-			.bind(to: viewModel.inputAddButtonTap)
-			.disposed(by: disposeBag)
-
-
-		viewModel.data
+		let output = viewModel.transform(input: input)
+		
+		output.shoppingList
 			.bind(to: shoppingListTableView.rx.items(cellIdentifier: ShoppingListTableViewCell.identifier, cellType: ShoppingListTableViewCell.self)) {
 				row, element, cell in
-				
+
 				cell.appNameLabel.rx.text
 					.onNext(element.title)
 
@@ -120,16 +111,6 @@ class ShoppingListViewController: UIViewController {
 			}
 			.disposed(by: disposeBag)
 
-
-		shoppingListTableView
-			.rx
-			.itemDeleted
-			.bind(with: self, onNext: { owner, indexPath in
-				owner.viewModel.inputDeleteButtonTap.accept(indexPath.row)
-			})
-			.disposed(by: disposeBag)
 	}
-
-
 
 }
