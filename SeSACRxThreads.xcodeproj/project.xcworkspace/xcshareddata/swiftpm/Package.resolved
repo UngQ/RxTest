@@ -1,6 +1,15 @@
 {
-  "originHash" : "ef9f2d0d36a5ef3b7652cf3e1e7e014b53935c3d62ce81fbe7f3f1d578da5f86",
+  "originHash" : "0ee67f4bcadb57b0eeb513e6843435e7283c9c438959393af17b4b5ee4e1e4b1",
   "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
+      }
+    },
     {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",

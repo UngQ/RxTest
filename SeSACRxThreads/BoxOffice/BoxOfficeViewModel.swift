@@ -40,7 +40,11 @@ class BoxOfficeViewModel {
 			.map { guard let result = Int($0) else { return 20240401 }
 			return result }
 			.map { String($0) }
-			.flatMap { BoxOfficeNetwork.fetchBoxOfficeData(date: $0) }
+			.flatMap { BoxOfficeNetwork.fetchBoxOfficeDataWithSingle(date: $0)
+					.catch { error in
+						return Single<Movie>.never()
+					}
+			}
 			.subscribe(with: self) { owner, value in
 				let data = value.boxOfficeResult.dailyBoxOfficeList
 				movieList.onNext(data)

@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Alamofire
 
 enum APIError: Error {
     case invalidURL
@@ -16,6 +17,8 @@ enum APIError: Error {
 }
 
 class BoxOfficeNetwork {
+
+	static let baseURL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt="
 
 	static func fetchBoxOfficeData(date: String) -> Observable<Movie> {
 
@@ -54,5 +57,25 @@ class BoxOfficeNetwork {
 
 			return Disposables.create()
 		}
+	}
+
+	static func fetchBoxOfficeDataWithSingle(date: String) -> Single<Movie> {
+
+		return Single.create { single -> Disposable in
+
+
+			AF.request(URL(string: (baseURL + date))!)
+				.validate(statusCode: 200..<300)
+				.responseDecodable(of: Movie.self) { response in
+					switch response.result {
+					case .success(let success):
+						single(.success(success))
+
+					case.failure(let failure):
+						single(.failure(failure))
+					}
+				}
+			return Disposables.create()
+		}.debug()
 	}
 }
