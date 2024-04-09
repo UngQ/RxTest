@@ -25,6 +25,7 @@ class BoxOfficeViewModel {
     struct Output {
 		let recentList: BehaviorRelay<[String]>
 		let movieList: PublishSubject<[DailyBoxOfficeList]>
+		let wrongMessage: PublishRelay<Void>
 
     }
     
@@ -33,6 +34,7 @@ class BoxOfficeViewModel {
 
 		let recentList = BehaviorRelay(value: recent)
 		let movieList = PublishSubject<[DailyBoxOfficeList]>()
+		let wrongMessage = PublishRelay<Void>()
 
 		input.searchButtonTap
 			.throttle(.seconds(1), scheduler: MainScheduler.instance)
@@ -42,6 +44,7 @@ class BoxOfficeViewModel {
 			.map { String($0) }
 			.flatMap { BoxOfficeNetwork.fetchBoxOfficeDataWithSingle(date: $0)
 					.catch { error in
+						wrongMessage.accept(())
 						return Single<Movie>.never()
 					}
 			}
@@ -59,7 +62,8 @@ class BoxOfficeViewModel {
 			.disposed(by: bag)
 
 		return Output(recentList: recentList,
-					  movieList: movieList)
+					  movieList: movieList,
+		wrongMessage: wrongMessage)
     }
     
     

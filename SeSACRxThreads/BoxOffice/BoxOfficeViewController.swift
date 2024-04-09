@@ -10,6 +10,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+import Toast
+
 class BoxOfficeViewController: UIViewController {
     
     let tableView = UITableView()
@@ -31,6 +33,11 @@ class BoxOfficeViewController: UIViewController {
 
 		let output = viewModel.transform(input: input)
 
+		output.wrongMessage
+			.bind(with: self) { owner, _ in
+				owner.view.makeToast("hgjk", position: .center)
+			}
+			.disposed(by: disposeBag)
 
 		output.movieList
             .bind(
@@ -69,6 +76,7 @@ class BoxOfficeViewController: UIViewController {
         super.viewDidLoad() 
         configure()
         bind()
+		
     }
 
     
