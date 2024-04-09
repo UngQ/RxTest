@@ -26,7 +26,7 @@ class BoxOfficeViewModel {
 		let recentList: BehaviorRelay<[String]>
 		let movieList: PublishSubject<[DailyBoxOfficeList]>
 		let wrongMessage: PublishRelay<Void>
-
+		
     }
     
     

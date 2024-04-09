@@ -13,9 +13,7 @@ import RxCocoa
 class ShoppingListViewModel {
 
 	let repository = ShoppingListRepository()
-
 	var shoppingList: Results<ShoppingListRealmModel>!
-	var observationToken: NotificationToken?
 
 	let disposeBag = DisposeBag()
 
@@ -32,29 +30,11 @@ class ShoppingListViewModel {
 
 	init() {
 		shoppingList = repository.fetchList()
-
-
 	}
 
 	func transform(input: Input) -> Output {
-		var list: [ShoppingList] = []
+		var list: [ShoppingList] = Array(self.shoppingList).map { $0.toStruct() }
 		let outputList = BehaviorSubject<[ShoppingList]>(value: list)
-
-
-		observationToken = self.shoppingList.observe { changes in
-			switch changes {
-			case .initial:
-				print("initial")
-				list = Array(self.shoppingList).map { $0.toStruct() }
-				outputList.onNext(list)
-			case .update:
-				print("update")
-				list = Array(self.shoppingList).map { $0.toStruct() }
-				outputList.onNext(list)
-			case .error:
-				print("error")
-			}
-		}
 
 		input.title
 			.orEmpty
@@ -70,6 +50,8 @@ class ShoppingListViewModel {
 			.subscribe(with: self) { owner, title in
 				owner.repository.createShoppingItem(title)
 				input.title.onNext("")
+				list = Array(self.shoppingList).map { $0.toStruct() }
+				outputList.onNext(list)
 			}
 			.disposed(by: disposeBag)
 
@@ -78,6 +60,8 @@ class ShoppingListViewModel {
 			.subscribe(with: self) { owner, value in
 				print(value)
 				owner.repository.deleteShoppingItem(list[value].id)
+				list = Array(self.shoppingList).map { $0.toStruct() }
+				outputList.onNext(list)
 			}
 			.disposed(by: disposeBag)
 

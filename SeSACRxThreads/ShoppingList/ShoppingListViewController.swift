@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 class ShoppingListViewController: UIViewController {
 
@@ -88,15 +89,15 @@ class ShoppingListViewController: UIViewController {
 			.bind(to: shoppingListTableView.rx.items(cellIdentifier: ShoppingListTableViewCell.identifier, cellType: ShoppingListTableViewCell.self)) {
 				row, element, cell in
 
-				cell.appNameLabel.rx.text
-					.onNext(element.title)
+				cell.appNameLabel.text = element.title
 
 				let checkButtonImage = element.isCheck ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
 				cell.checkButton.setImage(checkButtonImage, for: .normal)
 				cell.checkButton.rx.tap
 					.bind(with: self) { owner, _ in
 						owner.viewModel.repository.toggleCheck(element.id)
-
+						var list = Array(owner.viewModel.shoppingList).map { $0.toStruct() }
+						output.shoppingList.onNext(list)
 					}
 					.disposed(by: cell.disposeBag)
 
@@ -105,7 +106,8 @@ class ShoppingListViewController: UIViewController {
 				cell.bookmarkButton.rx.tap
 					.bind(with: self) { owner, _ in
 						owner.viewModel.repository.toggleBookmark(element.id)
-
+						var list = Array(owner.viewModel.shoppingList).map { $0.toStruct() }
+						output.shoppingList.onNext(list)
 					}
 					.disposed(by: cell.disposeBag)
 			}
