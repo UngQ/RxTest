@@ -96,7 +96,7 @@ class ShoppingListViewController: UIViewController {
 				cell.checkButton.rx.tap
 					.bind(with: self) { owner, _ in
 						owner.viewModel.repository.toggleCheck(element.id)
-						var list = Array(owner.viewModel.shoppingList).map { $0.toStruct() }
+						let list = Array(owner.viewModel.shoppingList).map { $0.toStruct() }
 						output.shoppingList.onNext(list)
 					}
 					.disposed(by: cell.disposeBag)
@@ -106,7 +106,7 @@ class ShoppingListViewController: UIViewController {
 				cell.bookmarkButton.rx.tap
 					.bind(with: self) { owner, _ in
 						owner.viewModel.repository.toggleBookmark(element.id)
-						var list = Array(owner.viewModel.shoppingList).map { $0.toStruct() }
+						let list = Array(owner.viewModel.shoppingList).map { $0.toStruct() }
 						output.shoppingList.onNext(list)
 					}
 					.disposed(by: cell.disposeBag)
